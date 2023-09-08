@@ -21,6 +21,12 @@ jobs:
           chmod +x ${GITHUB_WORKSPACE}/.github/scripts/W3CApi.sh  # Make the script executable
           bash ${GITHUB_WORKSPACE}/.github/scripts/W3CApi.sh
           if [ $? -eq 1 ]; then
-            echo $(curl -s "https://validator.nu/?doc=https://johan-uqac.github.io/CV&out=gnu")
+            curl -s "https://validator.nu/?doc=https://johan-uqac.github.io/CV&out=gnu" > ${GITHUB_WORKSPACE}/errors.txt
             exit 1
           fi
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: errors
+          path: ${GITHUB_WORKSPACE}/errors.txt
