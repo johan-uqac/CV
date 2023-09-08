@@ -1,0 +1,1 @@
+"https://johan-uqac.github.io/CV":1.16-2.6: info warning: Consider adding a “lang” attribute to the “html” start tag to declare the language of this document.
