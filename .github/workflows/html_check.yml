@@ -5,18 +5,25 @@ on:
 
 
 jobs:
-  run-html5validator:
+  check-with-w3c:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Checks HTML5
-      uses: Cyb3r-Jak3/html5validator-action@v7.2.0
-      with:
-        root: ./
-        css: true
-        format: json
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: log
-        path: log.log
+      - uses: actions/checkout@v2
+      - name: Monitor Pages Deployment Status
+        run: |
+          status="pending"
+          while [ "$status" != "success" ]; do
+            sleep 2
+            status=$(curl -s -u "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
+                      -X GET "https://api.github.com/repos/${{ github.repository }}/pages/builds/latest" \
+                      | jq -r '.status')
+          done
+      
+      - name: Call W3C API
+        run: |
+          chmod +x ${GITHUB_WORKSPACE}/scripts/W3CApi.sh  # Make the script executable
+          bash ${GITHUB_WORKSPACE}/scripts/W3CApi.sh
+          if [ $? -eq 1 ]; then
+            echo $(curl -s "https://validator.nu/?doc=https://johan-uqac.github.io/CV&out=gnu")
+            exit 1
+          fi
