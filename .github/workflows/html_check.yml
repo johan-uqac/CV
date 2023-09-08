@@ -12,6 +12,9 @@ jobs:
       - name: Monitor Pages Deployment Status
         run: |
           status="pending"
+          echo "Waiting for pages to be deployed..."
+          echo "https://api.github.com/repos/${{ github.repository }}/pages/builds/latest"
+          echo "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}"
           while [ "$status" != "success" ]; do
             sleep 2
             status=$(curl -s -u "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
