@@ -53,5 +53,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: cv
-          path: cv.zip
+          name: TP1_CHRILLESEN_JOHAN.zip
+          path: TP1_CHRILLESEN_JOHAN.zip
