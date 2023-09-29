@@ -40,3 +40,18 @@ jobs:
           if [ $W3C_ERRORS -eq 1 ]; then
             exit 1
           fi
+  create_zip:
+    needs: check-with-w3c
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create zip
+        run: |
+          zip -r TP1_CHRILLESEN_JOHAN.zip index.html css img
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: cv
+          path: cv.zip
