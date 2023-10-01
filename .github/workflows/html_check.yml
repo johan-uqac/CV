@@ -2,6 +2,7 @@ name: HTML Check
 
 on:
   push:
+    branches: [ main ]
 
 
 jobs:
